@@ -134,6 +134,41 @@ For additional help, see [troubleshooting.md](troubleshooting.md)
 # Contributing
 Contributions are welcome! Please open an issue or submit a pull request. For larger changes, open an issue first to discuss the proposed updates.
 
+# issue related to version of k8S
+here is the fix
+
+After ./install.sh
+Error:
+--- Create single-node Kubernetes cluster ---
+INFO: Creating k8s cluster ...
+I0404 21:24:42.212052 323698 version.go:256] remote version is much newer: v1.32.3; falling back to: stable-1.28
+[init] Using Kubernetes version: v1.28.15
+[preflight] Running pre-flight checks
+error execution phase preflight: [preflight] Some fatal errors occurred:
+[ERROR KubeletVersion]: the kubelet version is higher than the control plane version. This is not a supported version skew and may lead to a malfunctional cluster. Kubelet version: "1.29.13" Control plane version: "1.28.15"
+[preflight] If you know what you are doing, you can make a check non-fatal with --ignore-preflight-errors=...
+To see the stack trace of this error execute with --v=5 or higher
+ERROR: Failed to initialize Kubernetes cluster. Please check the logs for errors.
+
+apt-cache madison kubelet
+kubelet | 1.29.13-ubuntu22.04u3 | https://packages.microsoft.com/ubuntu/22.04/prod jammy/main amd64 Packages
+kubelet | 1.28.15-1.1 | https://pkgs.k8s.io/core:/stable:/v1.28/deb Packages
+kubelet | 1.28.14-2.1 | https://pkgs.k8s.io/core:/stable:/v1.28/deb Packages
+kubelet | 1.28.13-1.1 | https://pkgs.k8s.io/core:/stable:/v1.28/deb Packages
+kubelet | 1.28.12-1.1 | https://pkgs.k8s.io/core:/stable:/v1.28/deb Packages
+kubelet | 1.28.11-1.1 | https://pkgs.k8s.io/core:/stable:/v1.28/deb Packages
+kubelet | 1.28.10-1.1 | https://pkgs.k8s.io/core:/stable:/v1.28/deb Packages
+kubelet | 1.28.9-2.1 | https://pkgs.k8s.io/core:/stable:/v1.28/deb Packages
+kubelet | 1.28.8-1.1 | https://pkgs.k8s.io/core:/stable:/v1.28/deb Packages
+kubelet | 1.28.7-1.1 | https://pkgs.k8s.io/core:/stable:/v1.28/deb Packages
+
+sudo apt install -y --allow-downgrades --allow-change-held-packages kubelet=1.28.15-1.1
+sudo apt-mark hold kubelet
+
+Then run again ./install.sh
+
+everything works!
+
 ## License
 
 This repository is licensed under the [MIT License](LICENSE).
